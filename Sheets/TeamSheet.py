@@ -40,12 +40,18 @@ class TeamSheet(SheetBase):
         team_stats = Riot.get_team_stats(match, side)
 
         # Start filling spreadsheet
-        print('Filling spreadsheet')
+        print('Filling general match stats')
         self.fill_match_stats(match, team_stats, general_info_row)
+        print('General match stats - DONE')
+
+        print('Filling player stats')
         self.fill_player_stats(riot_API, side, match, team_stats, row_index)
+        print('Player stats - DONE')
 
         # Reset active spreadsheet to 'Game stats'
         self.worksheet = self.sheet.worksheet(WORKSHEET_GAME_STATS)
+
+        print('Match #' + str(match_id) + ' - DONE')
 
     # Fill game's general info
     def fill_match_stats(self, match, team_stats, general_info_row):
@@ -56,7 +62,23 @@ class TeamSheet(SheetBase):
 
     # Fill all player stats
     def fill_player_stats(self, riot_API, side, match, team_stats, row_index):
+        row = str(row_index)  # Used for cell range
         for i in range(0, 5):  # 0: top, 1: jungle.. etc.
+            print('- player #' + str(i + 1))
             self.worksheet = self.sheet.worksheet(ROLE_WORKSHEETS[i])
             player = Riot.get_participant_by_index(match, side, i)
+            player_stats = player['stats']
             champion = riot_API.fetch_champion(match, player['championId'])
+
+            self.set_cell_value(COL_PLAYER_STAT_CHAMPION_NAME + row, champion['name'])
+            self.set_cell_value(COL_PLAYER_STAT_KILLS + row, player_stats['kills'])
+            self.set_cell_value(COL_PLAYER_STAT_DEATHS + row, player_stats['deaths'])
+            self.set_cell_value(COL_PLAYER_STAT_ASSISTS + row, player_stats['assists'])
+            self.set_cell_value(COL_PLAYER_STAT_DMG_TO_CHAMPS + row, player_stats['totalDamageDealtToChampions'])
+            self.set_cell_value(COL_PLAYER_STAT_DMG_TAKEN + row, player_stats['totalDamageTaken'])
+            self.set_cell_value(COL_PLAYER_STAT_WARDS_PLACED + row, player_stats['wardsPlaced'])
+            self.set_cell_value(COL_PLAYER_STAT_WARDS_DESTROYED + row, player_stats['wardsKilled'])
+            self.set_cell_value(COL_PLAYER_STAT_WARDS_BOUGHT + row, player_stats['visionWardsBoughtInGame'])
+            self.set_cell_value(COL_PLAYER_STAT_VISION_SCORE + row, player_stats['visionScore'])
+            self.set_cell_value(COL_PLAYER_STAT_CREEP_SCORE + row, player_stats['totalMinionsKilled'] + player_stats['neutralMinionsKilled'])
+            self.set_cell_value(COL_PLAYER_STAT_GOLD_EARNED + row, player_stats['goldEarned'])

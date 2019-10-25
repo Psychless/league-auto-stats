@@ -29,9 +29,9 @@ class SheetBase:
         return self.worksheet.acell(cell).value
 
     def set_cell_value(self, cell: str, value):
-        self.worksheet.update_cell(cell, value)
+        self.worksheet.update_acell(cell, value)
 
-    # Converts col referrencing letter to index
+    # Converts col referred letter to index
     # A -> 1, D -> 4 etc.
     def get_col_index(self, col: str):
         # -96 : ASCII
