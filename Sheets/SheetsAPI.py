@@ -1,42 +1,39 @@
-from __future__ import print_function
-import pickle
-import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 class SheetBase:
-    def __init__(self):
-        # If modifying these scopes, delete the file token.pickle.
-        SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+    def __init__(self, sheet_id, worksheet_name):
+        print('Starting up Google sheets API')
+        scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/spreadsheets',
+                 'https://www.googleapis.com/auth/drive']
+        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+        self.client = gspread.authorize(creds)
+        self.sheet = self.client.open_by_key(sheet_id)
+        self.worksheet = self.sheet.worksheet(worksheet_name)
+        print('Google sheets API - RUNNING')
 
-        creds = None
-        # The file token.pickle stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
-                creds = pickle.load(token)
-        # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', SCOPES)
-                creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            with open('token.pickle', 'wb') as token:
-                pickle.dump(creds, token)
+    def get_row_values(self, row_range: str):
+        return self.worksheet.range(row_range)
 
-        self.service = build('sheets', 'v4', credentials=creds)
-        self.sheet = self.service.spreadsheets()
+    def set_row_values(self, cell_list):
+        self.worksheet.update_cells(cell_list)
 
-    def get_cell_value(self, sheet_id: str, sheet: str, cell: str) -> str:
-        cell_value = self.sheet.values().get(spreadsheetId=sheet_id, range=sheet + '!' + cell).execute().get('values')
+    def get_row_cell_value(self, cell_list: list, cell: str):
+        return cell_list[self.get_col_index(cell)].value
 
-        if cell_value is None:
-            return ''
-        else:
-            return cell_value[0][0]
+    def set_row_cell_value(self, cell_list: list, cell: str, value):
+        cell_list[self.get_col_index(cell)].value = value
+
+    def get_cell_value(self, cell: str):
+        return self.worksheet.acell(cell).value
+
+    def set_cell_value(self, cell: str, value):
+        self.worksheet.update_cell(cell, value)
+
+    # Converts col referrencing letter to index
+    # A -> 1, D -> 4 etc.
+    def get_col_index(self, col: str):
+        # -96 : ASCII
+        # -1 : Starting from 0
+        return ord(col.lower()) - 96 - 1
