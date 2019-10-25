@@ -1,30 +1,10 @@
-import argparse
-import sys
-from Riot.RiotAPI import *
-from DTO.Match import Match
+from Sheets.TeamSheet import TeamSheet
 
 
 def main():
-    # initiate the parser
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--matchid", type=int)
-
-    # read arguments from the command line
-    args = parser.parse_args()
-
-    if args.matchid:
-        match_id = args.matchid
-        print('Match ID input - %s' % match_id)
-    else:
-        print('Match ID is required (--matchid)')
-        sys.exit(0)
-
-    # Riot API
-    match = Match(match_id)
-    fetch_match_stats(match)
-    print(match.format_game_duration())
-
-
+    team_sheet = TeamSheet()
+    foo = team_sheet.get_game_stat_cell_val('G9')
+    team_sheet.fill_empty_matches()
 
 if __name__ == "__main__":
     main()

@@ -1,11 +1,14 @@
+import math
 from riotwatcher import RiotWatcher
-from Riot.RiotConsts import *
-from DTO.Match import Match
+from Common.Constants import *
 
-def fetch_match_stats(match: Match):
+
+def fetch_match(match_id:int):
     watcher = RiotWatcher(API_KEY)
-    match_JSON = watcher.match.by_id(REGION, match.gameid)
+    return watcher.match.by_id(REGION, match_id)
 
-    # Game's duration
-    match.game_duration = match_JSON['gameDuration']
-    match.format_game_duration()
+
+def format_game_duration(game_duration:int):
+    minutes = int(math.floor(game_duration / 60))
+    seconds = game_duration % 60
+    return '%(minutes)s.%(seconds)s' % {'minutes': minutes, "seconds": seconds}
