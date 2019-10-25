@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f195cf41-4003-4043-b3a8-21409d5ac6eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Riot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Riot/RiotAPI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sheets/SheetsAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sheets/SheetsAPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Riot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Riot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sheets/TeamSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sheets/TeamSheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/token.pickle" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +91,7 @@
       <option name="presentableId" value="Default" />
       <updated>1571922331458</updated>
       <workItem from="1571922334411" duration="2462000" />
-      <workItem from="1571981215957" duration="24673000" />
+      <workItem from="1571981215957" duration="29798000" />
     </task>
     <servers />
   </component>
@@ -115,8 +111,24 @@
       </map>
     </option>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Riot.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Sheets/TeamSheet.py</url>
+          <line>59</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/league_auto_stats$RiotAPI.coverage" NAME="Main Coverage Results" MODIFIED="1572013180700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/league_auto_stats$RiotAPI.coverage" NAME="Main Coverage Results" MODIFIED="1572018638487" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/TeamStats$RiotAPI.coverage" NAME="RiotAPI Coverage Results" MODIFIED="1571930146129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
