@@ -1,6 +1,7 @@
 from Sheets.SheetsAPI import SheetBase
 from Common.Constants import *
 import Riot
+import time
 
 
 class TeamSheet(SheetBase):
@@ -27,6 +28,8 @@ class TeamSheet(SheetBase):
                     self.fill_all_stats(riot_API, match_id, general_info_row, row_string, side)
                     filled_match_count += 1
                     row_index += 1
+                    print('Waiting 100 seconds for API quota')
+                    time.sleep(100)
                     continue
             else:
                 print('All matches have been iterated')
@@ -66,7 +69,8 @@ class TeamSheet(SheetBase):
         for i in range(0, 5):  # 0: top, 1: jungle.. etc.
             print('- player #' + str(i + 1))
             self.worksheet = self.sheet.worksheet(ROLE_WORKSHEETS[i])
-            player = Riot.get_participant_by_index(match, side, i)
+            participant_index = ROLE_FLEX_INDEX[i] if riot_API.is_queue_flex(match) else i
+            player = Riot.get_participant_by_index(match, side, participant_index)
             player_stats = player['stats']
             champion = riot_API.fetch_champion(match, player['championId'])
 

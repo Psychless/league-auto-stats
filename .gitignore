@@ -126,3 +126,6 @@ dmypy.json
 
 # Google sheets API credentials
 credentials.json
+
+# Intellij IDEA
+.idea/workspace.xml
