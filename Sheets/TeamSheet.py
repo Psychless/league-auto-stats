@@ -3,6 +3,8 @@ from Common.Constants import *
 import Riot
 import time
 
+loop_non_empty_matches = False
+match_iteration_API_delay = 100;
 
 class TeamSheet(SheetBase):
     def fill_empty_matches(self, riot_API):
@@ -19,17 +21,17 @@ class TeamSheet(SheetBase):
             # Match has 'side' cell filled
             if side:
                 # Match is already filled
-                if side and game_result:
+                if side and game_result and not loop_non_empty_matches:
                     row_index += 1
                     continue
                 # Match is set and needs to be filled
-                if side and not game_result:
+                if (side and not game_result) or loop_non_empty_matches:
                     match_id = self.get_row_cell_value(general_info_row, COL_GAME_STAT_MATCH_ID)
                     self.fill_all_stats(riot_API, match_id, general_info_row, row_string, side)
                     filled_match_count += 1
                     row_index += 1
-                    print('Waiting 100 seconds for API quota')
-                    time.sleep(100)
+                    print('Waiting ' + str(match_iteration_API_delay) + ' seconds for API quota')
+                    time.sleep(match_iteration_API_delay)
                     continue
             else:
                 print('All matches have been iterated')
@@ -84,5 +86,8 @@ class TeamSheet(SheetBase):
             self.set_cell_value(COL_PLAYER_STAT_WARDS_DESTROYED + row, player_stats['wardsKilled'])
             self.set_cell_value(COL_PLAYER_STAT_WARDS_BOUGHT + row, player_stats['visionWardsBoughtInGame'])
             self.set_cell_value(COL_PLAYER_STAT_VISION_SCORE + row, player_stats['visionScore'])
+            self.set_cell_value(COL_PLAYER_STAT_CREEP_AT_10 + row, player['timeline']['creepsPerMinDeltas']['0-10'])
+            if '10-20' in player['timeline']['creepsPerMinDeltas']:
+                self.set_cell_value(COL_PLAYER_STAT_CREEP_AT_20 + row, player['timeline']['creepsPerMinDeltas']['10-20'])
             self.set_cell_value(COL_PLAYER_STAT_CREEP_SCORE + row, player_stats['totalMinionsKilled'] + player_stats['neutralMinionsKilled'])
             self.set_cell_value(COL_PLAYER_STAT_GOLD_EARNED + row, player_stats['goldEarned'])
