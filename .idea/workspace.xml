@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f195cf41-4003-4043-b3a8-21409d5ac6eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Riot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Riot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sheets/TeamSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sheets/TeamSheet.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -98,7 +96,12 @@
       <workItem from="1572215936825" duration="373000" />
       <workItem from="1573148501839" duration="3863000" />
       <workItem from="1573588746275" duration="5000" />
-      <workItem from="1573654276141" duration="5853000" />
+      <workItem from="1573654276141" duration="6543000" />
+      <workItem from="1576352405458" duration="21000" />
+      <workItem from="1576354659383" duration="1490000" />
+      <workItem from="1577392204745" duration="479000" />
+      <workItem from="1577487984510" duration="1634000" />
+      <workItem from="1579023120128" duration="3110000" />
     </task>
     <servers />
   </component>
@@ -135,7 +138,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/league_auto_stats$Main.coverage" NAME="Main Coverage Results" MODIFIED="1573662020578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/league_auto_stats$Main.coverage" NAME="Main Coverage Results" MODIFIED="1579025108510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/league_auto_stats$RiotAPI.coverage" NAME="Main Coverage Results" MODIFIED="1572018638487" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/TeamStats$RiotAPI.coverage" NAME="RiotAPI Coverage Results" MODIFIED="1571930146129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
