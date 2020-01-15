@@ -27,7 +27,7 @@ class RiotAPI:
     def __init__(self):
         print('Starting up Riot API')
         self.watcher = RiotWatcher(API_KEY)
-        self.dd_champ_version = self.watcher.data_dragon.versions_for_region('euw')['n']['champion']
+        self.dd_champ_version = self.watcher.data_dragon.versions_for_region(REGION_DATA_DRAGON)['n']['champion']
         self.champion_json = self.watcher.data_dragon.champions(self.dd_champ_version)
         self.queue_json = json.loads(urllib.request.urlopen("http://static.developer.riotgames.com/docs/lol/queues.json").read())
         print('Riot API - RUNNING')
