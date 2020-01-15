@@ -3,10 +3,15 @@ from Common.Constants import *
 import Riot
 import time
 
-loop_non_empty_matches = False
-match_iteration_API_delay = 100;
-
 class TeamSheet(SheetBase):
+    ROLE_INDEX = {
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 4
+    }
+
     def fill_empty_matches(self, riot_API):
         filled_match_count = 0
         row_index: int = GAME_STAT_STARTING_ROW
@@ -14,24 +19,34 @@ class TeamSheet(SheetBase):
         print('Looking for unfilled games..')
         while True:
             row_string = str(row_index)
-            general_info_row = self.get_row_values('A' + row_string + ':' + COL_GAME_STAT_MATCH_ID + row_string)
+            general_info_row = self.get_row_values('A' + row_string + ':' + COL_GAME_STAT_LAST_COL + row_string)
             game_result = self.get_row_cell_value(general_info_row, COL_GAME_STAT_RESULT)
             side = self.get_row_cell_value(general_info_row, COL_GAME_STAT_SIDE)
 
             # Match has 'side' cell filled
             if side:
                 # Match is already filled
-                if side and game_result and not loop_non_empty_matches:
+                if side and game_result:
                     row_index += 1
                     continue
                 # Match is set and needs to be filled
-                if (side and not game_result) or loop_non_empty_matches:
+                if side and not game_result:
+                    if filled_match_count > 0:
+                        print('Waiting 100 seconds for API quota')
+                        time.sleep(100)
+
+                    # Fetch match ID and role indexes
                     match_id = self.get_row_cell_value(general_info_row, COL_GAME_STAT_MATCH_ID)
+                    self.ROLE_INDEX[0] = int(self.get_row_cell_value(general_info_row, COL_GAME_STAT_TOP_INDEX))
+                    self.ROLE_INDEX[1] = int(self.get_row_cell_value(general_info_row, COL_GAME_STAT_JGL_INDEX))
+                    self.ROLE_INDEX[2] = int(self.get_row_cell_value(general_info_row, COL_GAME_STAT_MID_INDEX))
+                    self.ROLE_INDEX[3] = int(self.get_row_cell_value(general_info_row, COL_GAME_STAT_ADC_INDEX))
+                    self.ROLE_INDEX[4] = int(self.get_row_cell_value(general_info_row, COL_GAME_STAT_SUP_INDEX))
+
+                    # Start stat fill
                     self.fill_all_stats(riot_API, match_id, general_info_row, row_string, side)
                     filled_match_count += 1
                     row_index += 1
-                    print('Waiting ' + str(match_iteration_API_delay) + ' seconds for API quota')
-                    time.sleep(match_iteration_API_delay)
                     continue
             else:
                 print('All matches have been iterated')
@@ -71,7 +86,7 @@ class TeamSheet(SheetBase):
         for i in range(0, 5):  # 0: top, 1: jungle.. etc.
             print('- player #' + str(i + 1))
             self.worksheet = self.sheet.worksheet(ROLE_WORKSHEETS[i])
-            participant_index = ROLE_FLEX_INDEX[i] if riot_API.is_queue_flex(match) else i
+            participant_index = self.ROLE_INDEX[i] - 1  # Subtract 1 since end-users don't start counting from 0 like us nerds do
             player = Riot.get_participant_by_index(match, side, participant_index)
             player_stats = player['stats']
             champion = riot_API.fetch_champion(match, player['championId'])
@@ -86,8 +101,5 @@ class TeamSheet(SheetBase):
             self.set_cell_value(COL_PLAYER_STAT_WARDS_DESTROYED + row, player_stats['wardsKilled'])
             self.set_cell_value(COL_PLAYER_STAT_WARDS_BOUGHT + row, player_stats['visionWardsBoughtInGame'])
             self.set_cell_value(COL_PLAYER_STAT_VISION_SCORE + row, player_stats['visionScore'])
-            self.set_cell_value(COL_PLAYER_STAT_CREEP_AT_10 + row, player['timeline']['creepsPerMinDeltas']['0-10'])
-            if '10-20' in player['timeline']['creepsPerMinDeltas']:
-                self.set_cell_value(COL_PLAYER_STAT_CREEP_AT_20 + row, player['timeline']['creepsPerMinDeltas']['10-20'])
             self.set_cell_value(COL_PLAYER_STAT_CREEP_SCORE + row, player_stats['totalMinionsKilled'] + player_stats['neutralMinionsKilled'])
             self.set_cell_value(COL_PLAYER_STAT_GOLD_EARNED + row, player_stats['goldEarned'])
